@@ -30,7 +30,7 @@ class Log:
         #    logger.debug('nothing to do for %s', th.origin)
         #    return None
 
-        if self.size == None or self.size == th.size:
+        if self.size is None or self.size == th.size:
             cp = tlog.ConsistencyProof(th.size, th.size, [])
         else:
             cp = self.api.get_consistency_proof(self.size, th.size)
@@ -51,7 +51,7 @@ class Log:
             cp = self.api.get_consistency_proof(actual_size, th.size)
 
         result = witness.add_checkpoint(th, cp)
-        if type(result) != str:
+        if type(result) is not str:
             raise RuntimeError(f'update with refreshed size failed for {th.origin}')
 
         logger.debug('updated witness for %s from %d to %d', th.origin, actual_size, th.size)
