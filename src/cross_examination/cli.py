@@ -15,13 +15,12 @@ logger = logging.getLogger(__name__)
 
 
 class Log:
-    def __init__(self, name, api: tlog.LogAPI):
-        self.name = name
+    def __init__(self, api: tlog.LogAPI):
         self.api = api
         self.size = None
 
     def __str__(self):
-        return f'Log(name={self.name}, size={self.size})'
+        return f'Log(origin={self.api.origin}, size={self.size})'
 
     def submit(self, witness: witness.Witness) -> Optional[str]:
         th = self.api.get_tree_head()
@@ -89,7 +88,7 @@ def parse_config(path: Path) -> list[tuple[int, Log]]:
             interval, *log_def = line.split()
             match log_def:
                 case ['sigsum', url, keyhash]:
-                    log = Log(url, sigsum.SigsumLog(url, bytes.fromhex(keyhash)))
+                    log = Log(sigsum.SigsumLog(url, bytes.fromhex(keyhash)))
                 case _:
                     logger.error(f'unsupported log type {log_def[0]}')
                     continue
@@ -136,7 +135,7 @@ def main() -> None:
         try:
             result = entry.log.submit(w)
             if result is not None:
-                cosignatures[entry.log.name] = result
+                cosignatures[entry.log.api.origin] = result
         except Exception as e:
             logging.error('updating log %s failed', entry.log, exc_info=e)
 

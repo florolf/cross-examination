@@ -49,6 +49,8 @@ class ConsistencyProof:
 
 
 class LogAPI(Protocol):
+    origin: str
+
     def get_tree_head(self) -> TreeHead:
         ...
 
