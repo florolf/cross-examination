@@ -135,7 +135,7 @@ def main() -> None:
         try:
             result = entry.log.submit(w)
             if result is not None:
-                cosignatures[entry.log.api.origin] = result
+                cosignatures[entry.log.api.origin] = [entry.log.size, result]
         except Exception as e:
             logging.error('updating log %s failed', entry.log, exc_info=e)
 
