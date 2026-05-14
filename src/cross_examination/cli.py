@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from . import sigsum, tlog, witness
+from . import sigsum, tlog, witness, tiles
 
 
 logger = logging.getLogger(__name__)
@@ -89,6 +89,11 @@ def parse_config(path: Path) -> list[tuple[int, Log]]:
             match log_def:
                 case ['sigsum', url, keyhash]:
                     log = Log(sigsum.SigsumLog(url, bytes.fromhex(keyhash)))
+                case ['tiles', origin, location]:
+                    if location.startswith('http://') or location.startswith('https://'):
+                        log = Log(tiles.Tiles(origin, tiles.HttpBackend(location)))
+                    else:
+                        log = Log(tiles.Tiles(origin, tiles.LocalBackend(Path(location))))
                 case _:
                     logger.error(f'unsupported log type {log_def[0]}')
                     continue

@@ -14,3 +14,15 @@ $ .venv/bin/cross-examination -v --cosignatures cosignatures.json config http://
 ```
 
 This will poll seasalp and ginkgo every thirty seconds, push the checkpoints to the witness at http://127.0.0.1:7380 and store the resulting cosignatures in `cosignatures.json`.
+
+tlog-tiles based logs are supported too using the syntax:
+
+```
+INTERVAL tiles ORIGIN URL
+```
+
+e.g.
+
+```
+5 tiles arche2026h1.staging.ct.transparency.dev https://storage.googleapis.com/static-ct-staging-arche2026h1-bucket
+```
