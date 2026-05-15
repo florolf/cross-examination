@@ -56,7 +56,7 @@ class ConsistencyProof:
 
     def __str__(self):
         hashes = ", ".join([x.hex() for x in self.node_hashes])
-        return f"ConsistencyProof(old_size={self.old_size}, new_size={self.new_size}, node_hashes=[{hashes}]"
+        return f"ConsistencyProof(old_size={self.old_size}, new_size={self.new_size}, node_hashes=[{hashes}])"
 
 
 class LogAPI(Protocol):
